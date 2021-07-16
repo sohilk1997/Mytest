@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {colors} from '../constant/Colors';
 
 export default StyleSheet.create({
@@ -71,6 +71,7 @@ export default StyleSheet.create({
   sendBalanceCommonTxt: {
     color: colors.grey,
     fontWeight: 'bold',
+    top: Platform.OS === 'android' ? 15 : null,
   },
   commonSendBalanceView: {
     flexDirection: 'row',
