@@ -1,9 +1,9 @@
 import {ethers, providers} from 'ethers';
-import {PROJECT_ID, NETWORK, KEY} from '../Constant/Config';
+import {PROJECT_ID, NETWORK, KEY} from '../constant/Config';
 
 // This will need for Shims Injected
 import '@ethersproject/shims';
-import {validateNumbers, validationStrings} from '../Constant/Validation';
+import {validateNumbers, validationStrings} from './Validation';
 import {Alert} from 'react-native';
 
 export const getWallet = async () => {
@@ -20,7 +20,6 @@ export const getWallet = async () => {
       return {balance: ethers.utils.formatEther(result), Wallet: randomWallet};
     })
     .catch(error => {
-      console.log('Error', error);
       return error;
     });
 };
