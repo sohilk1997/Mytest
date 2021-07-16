@@ -5,14 +5,12 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 import {Strings} from '../strings/Strings';
-import {validationStrings} from '../strings/ValidationStrings';
 import styles from '../style/styles';
-import {validateNumbers} from '../utils/Validation';
+import {onPressSendBtn} from '../services';
 
 const SendBalanceScreen = props => {
   // State Declaration //
@@ -21,36 +19,6 @@ const SendBalanceScreen = props => {
 
   // Props //
   let {balance, wallet} = props.route.params;
-
-  /**
-   * It works for sending amount to other address if balance is available
-   */
-  const onPressSendBtn = async () => {
-    let error = '';
-    if (address.trim() === '' || amount.trim() === '') {
-      error = validationStrings.allFieldsReq;
-    } else if (!validateNumbers(amount)) {
-      error = validationStrings.onlyNumberValid;
-    } else if (balance < amount) {
-      error = validationStrings.noBalance;
-    }
-    if (error !== '') {
-      Alert.alert(validationStrings.appName, error);
-    } else {
-      let tx = {
-        to: address.trim(),
-        value: amount,
-      };
-      await wallet
-        .sendTransaction(tx)
-        .then(() => {
-          Alert.alert(validationStrings.appName, validationStrings.onSuccess);
-        })
-        .catch(() => {
-          Alert.alert(validationStrings.appName, validationStrings.onError);
-        });
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -80,7 +48,7 @@ const SendBalanceScreen = props => {
           style={styles.container}>
           <View style={styles.balanceBtnView}>
             <TouchableOpacity
-              onPress={onPressSendBtn}
+              onPress={() => onPressSendBtn(address, amount, balance, wallet)}
               style={styles.transferBtn}>
               <Text style={styles.buttonBtn}>{Strings.send}</Text>
             </TouchableOpacity>

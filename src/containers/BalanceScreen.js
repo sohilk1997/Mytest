@@ -1,8 +1,9 @@
 import React from 'react';
+import {useCallback} from 'react';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {getWallet} from '../services/GetBalance';
+import {getWallet} from '../services';
 import {Strings} from '../strings/Strings';
 import styles from '../style/styles';
 
@@ -23,13 +24,12 @@ const BalanceScreen = props => {
   /**
    * This fun for navigate for wallet payment
    */
-
-  const onPressPayBtn = () => {
+  const onPressPayBtn = useCallback(() => {
     props.navigation.navigate('SendBalanceScreen', {
       balance: balance,
       wallet: wallet,
     });
-  };
+  }, [props.navigation, balance, wallet]);
 
   return (
     <View style={styles.balanceContainer}>
